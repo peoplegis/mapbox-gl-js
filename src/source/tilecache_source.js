@@ -52,7 +52,7 @@ class TilecacheSource extends Evented implements Source {
         this.minzoom = 0;
         this.maxzoom = 22;
         this.roundZoom = true;
-        this.scheme = 'xyz';
+        this.scheme = 'tms';
         this.tileSize = 512;
         this._loaded = false;
 
@@ -109,11 +109,21 @@ class TilecacheSource extends Evented implements Source {
     }
 
     loadTile(tile: Tile, callback: Callback<void>) {
-        const url = this.map._requestManager.normalizeTileURL(tile.tileID.canonical.url(this.tiles, this.scheme), this.tileSize);
+        const rawUrl = this.map._requestManager.normalizeTileURL(tile.tileID.canonical.url(this.tiles, this.scheme), this.tileSize);
+        const urlParts = rawUrl.split('/');
+        const [z, x, y] = urlParts.slice(-3).map(part => part.replace('.png', ''));
 
-        console.log(`Tilecache URL: ${url}`);
+        const zeroPad = (value, length) => value.toString(10).padStart(length, '0');
 
-        tile.request = getImage(this.map._requestManager.transformRequest(url, ResourceType.Tile), (err, img) => {
+        const XComponents = [zeroPad(parseInt(x / 1000000), 3), zeroPad((parseInt(x / 1000) % 1000), 3), zeroPad((parseInt(x) % 1000), 3)];
+        const YComponents = [zeroPad(parseInt(y / 1000000), 3), zeroPad((parseInt(y / 1000) % 1000), 3), zeroPad((parseInt(y) % 1000), 3)];
+        const ZComponents = [zeroPad(z, 2)];
+        const url = `${urlParts.slice(0, urlParts.length - 3).join('/')}/${ZComponents.join('/')}/${XComponents.join('/')}/${YComponents.join('/')}.png`;
+        const requestParameters = this.map._requestManager.transformRequest(url, ResourceType.Tile);
+
+        requestParameters.mode = 'no-cors';
+
+        tile.request = getImage(requestParameters, (err, img) => {
             delete tile.request;
 
             if (tile.aborted) {

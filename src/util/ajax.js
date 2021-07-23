@@ -60,6 +60,7 @@ if (typeof Object.freeze == 'function') {
 export type RequestParameters = {
     url: string,
     headers?: Object,
+    mode?: 'cors' | 'navigate' | 'no-cors' | 'same-origin',
     method?: 'GET' | 'POST' | 'PUT',
     body?: string,
     type?: 'string' | 'json' | 'arrayBuffer',
@@ -111,6 +112,7 @@ function makeFetchRequest(requestParameters: RequestParameters, callback: Respon
         body: requestParameters.body,
         credentials: requestParameters.credentials,
         headers: requestParameters.headers,
+        mode: requestParameters.mode,
         referrer: getReferrer(),
         signal: controller.signal
     });
