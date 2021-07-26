@@ -121,8 +121,6 @@ class TilecacheSource extends Evented implements Source {
         const url = `${urlParts.slice(0, urlParts.length - 3).join('/')}/${ZComponents.join('/')}/${XComponents.join('/')}/${YComponents.join('/')}.png`;
         const requestParameters = this.map._requestManager.transformRequest(url, ResourceType.Tile);
 
-        requestParameters.mode = 'no-cors';
-
         tile.request = getImage(requestParameters, (err, img) => {
             delete tile.request;
 
