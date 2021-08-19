@@ -93,7 +93,7 @@ class SourceCache extends Evented {
         this._cache = new TileCache(0, this._unloadTile.bind(this));
         this._timers = {};
         this._cacheTimers = {};
-        this._maxTileCacheSize = null;
+        this._maxTileCacheSize = options.volatile ? 0 : null;
         this._loadedParentTiles = {};
 
         this._coveredTiles = {};
@@ -102,7 +102,9 @@ class SourceCache extends Evented {
 
     onAdd(map: Map) {
         this.map = map;
-        this._maxTileCacheSize = map ? map._maxTileCacheSize : null;
+        if (this._maxTileCacheSize === null && map) {
+            this._maxTileCacheSize = map ? map._maxTileCacheSize : null;
+        }
         if (this._source && this._source.onAdd) {
             this._source.onAdd(map);
         }
