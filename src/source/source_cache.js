@@ -38,6 +38,7 @@ import type {SourceSpecification} from '../style-spec/types';
 class SourceCache extends Evented {
     id: string;
     dispatcher: Dispatcher;
+    isVolatile: boolean;
     map: Map;
     style: Style;
 
@@ -93,7 +94,8 @@ class SourceCache extends Evented {
         this._cache = new TileCache(0, this._unloadTile.bind(this));
         this._timers = {};
         this._cacheTimers = {};
-        this._maxTileCacheSize = options.volatile ? 0 : null;
+        this.isVolatile = options.volatile;
+        this._maxTileCacheSize = this.isVolatile ? 0 : null;
         this._loadedParentTiles = {};
 
         this._coveredTiles = {};
@@ -473,12 +475,19 @@ class SourceCache extends Evented {
      * are inside the viewport.
      * @private
      */
-    update(transform: Transform) {
+    update(transform: Transform, reloadTiles?: boolean) {
         this.transform = transform;
         if (!this._sourceLoaded || this._paused) { return; }
 
         this.updateCacheSize(transform);
         this.handleWrapJump(this.transform.center.lng);
+
+        // We want to reload all tiles to react to a change in the source data
+        if (reloadTiles) {
+            // eslint-disable-next-line no-debugger
+            debugger;
+            this.clearTiles();
+        }
 
         // Covered is a list of retained tiles who's areas are fully covered by other,
         // better, retained tiles. They are not drawn separately.
