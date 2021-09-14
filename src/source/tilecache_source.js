@@ -57,7 +57,7 @@ class TilecacheSource extends Evented implements Source {
         this._loaded = false;
 
         this._options = extend({type: 'tilecache'}, options);
-        extend(this, pick(options, ['url', 'scheme', 'tileSize']));
+        extend(this, pick(options, ['url', 'scheme', 'tileSize', 'maxzoom', 'minzoom']));
     }
 
     load() {
