@@ -1,14 +1,11 @@
 {
-  "name": "mapbox-gl",
+  "name": "@peoplegis/mapbox-gl",
   "description": "A WebGL interactive maps library",
   "version": "1.13.1",
   "main": "dist/mapbox-gl.js",
   "style": "dist/mapbox-gl.css",
   "license": "SEE LICENSE IN LICENSE.txt",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/mapbox/mapbox-gl-js.git"
-  },
+  "repository": "https://github.com/peoplegis/mapbox-gl-js.git",
   "engines": {
     "node": ">=6.4.0"
   },
@@ -50,7 +47,7 @@
     "babelify": "^10.0.0",
     "benchmark": "^2.1.4",
     "browserify": "^16.5.0",
-    "canvas": "^2.6.1",
+    "canvas": "^2.11.2",
     "chalk": "^3.0.0",
     "chokidar": "^3.0.2",
     "cssnano": "^4.1.10",
