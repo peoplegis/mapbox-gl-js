@@ -4,6 +4,7 @@
   "version": "1.13.1",
   "main": "dist/mapbox-gl.js",
   "style": "dist/mapbox-gl.css",
+  "types": "mapbox-gl.d.ts",
   "license": "SEE LICENSE IN LICENSE.txt",
   "repository": "https://github.com/peoplegis/mapbox-gl-js.git",
   "engines": {
