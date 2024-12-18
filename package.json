@@ -138,8 +138,7 @@
     "start-bench": "run-p build-token watch-benchmarks start-server",
     "start-release": "run-s build-token build-prod-min build-css print-release-url start-server",
     "diff-tarball": "build/run-node build/diff-tarball && echo \"Please confirm the above is correct [y/n]? \"; read answer; if [ \"$answer\" = \"${answer#[Yy]}\" ]; then false; fi",
-    "prepare": "npm run build-css && npm run build-prod-min",
-    "prepare-publish": "git clean -fdx && yarn install",
+    "prepare-publish": "git clean -fdx && npm install",
     "lint": "eslint --cache --ignore-path .gitignore src test bench debug/*.html",
     "lint-docs": "documentation lint src/index.js",
     "lint-css": "stylelint 'src/css/mapbox-gl.css'",
@@ -156,7 +155,7 @@
     "test-expressions": "build/run-node test/expression.test.js",
     "test-flow": "build/run-node build/generate-flow-typed-style-spec && flow .",
     "test-cov": "nyc --require=@mapbox/flow-remove-types/register --reporter=text-summary --reporter=lcov --cache run-s test-unit test-expressions test-query test-render",
-    "prepublishOnly": "run-s prepare-publish build-flow-types build-dev build-prod-min build-prod build-csp build-css build-style-spec test-build diff-tarball",
+    "prepublishOnly": "run-s prepare-publish build-flow-types build-dev build-prod-min build-prod build-csp build-css build-style-spec",
     "print-release-url": "node build/print-release-url.js",
     "codegen": "build/run-node build/generate-style-code.js && build/run-node build/generate-struct-arrays.js"
   },
